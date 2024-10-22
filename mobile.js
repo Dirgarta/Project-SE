@@ -18,3 +18,24 @@ for (var i = 0; i < buttons.length; i += 1) {
 						feedback("You are already farthest to the left");
 					}
 					break;
+                    case 'up':
+                        if((gameboard[1] - 5) > 0) {
+                            move(gameboard[1] - 5);	
+                        } else {
+                            feedback("You cannot move higher");
+                        }
+                        break;
+                    case 'down':
+                        if((gameboard[1] + 5) <= 25) {
+                            move(gameboard[1] + 5);
+                        } else {
+                            feedback("You are already at the bottom");
+                        }
+                        break;
+                    case 'right':
+                        if(gameboard[1] % 5 == 0) {
+                            feedback("You are already farthest to the right");
+                        } else {
+                            move(gameboard[1] + 1);				
+                        }
+                        break;
