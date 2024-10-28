@@ -37,7 +37,7 @@ function walk(direction){
 			if(gameboard[1] % 5 == 0){
 				feedback("You are already farthest to the right");
 			} else {
-				move(gameboard[1] + 1);				
+				move(gameboard[1] + 1);			
 			}
 			break;
 		//go left
