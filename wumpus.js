@@ -26,3 +26,100 @@ function init() {
 	document.getElementById('feedback-4').innerHTML = ('Score ' + moves); 
 	checkRoom();
 }
+
+window.addEventListener('keydown', function(direction) { walk (direction); });
+
+function walk(direction){
+	document.getElementById('feedback').innerHTML = ("");
+	switch(direction.keyCode) {
+		//go right
+		case 39:
+			if(gameboard[1] % 5 == 0){
+				feedback("You are already farthest to the right");
+			} else {
+				move(gameboard[1] + 1);				
+			}
+			break;
+		//go left
+		case 37:
+			if((gameboard[1] - 1) % 5 != 0){
+				move(gameboard[1] - 1);
+			} else {
+				feedback("You are already farthest to the left");	
+			}
+			break;
+		//go up
+		case 38:
+			if((gameboard[1] - 5) > 0){
+				move(gameboard[1] - 5);	
+			} else {
+				feedback("You cannot move higher");	
+			}
+			break;
+		//go down
+		case 40:
+			if((gameboard[1] + 5) <= 25){
+				move(gameboard[1] + 5);
+			} else {
+				feedback("You are already at the bottom");	
+			}
+			break;
+	}
+	checkRoom();
+	score();
+}
+
+function getRandomEmptySquare(){
+	while(true){		
+		var x = Math.floor(Math.random() * 25) + 1; // Generates the gameboard
+		if((gameboard[1] != x) &&
+		(gameboard[2] != x) &&
+		(gameboard[3] != x) &&
+		(gameboard[4] != x) &&
+		(gameboard[5] != x) &&
+		(gameboard[6] != x) &&
+		(gameboard[7] != x))
+			return x;
+	}
+}
+
+function isSquareEmpty(squareNum){
+	for(var i in gameboard){ 
+		if(squareNum == gameboard[i]) {
+			return false; // The square EXISTS in the array
+		}
+	}
+	return true; // The square does NOT EXIST in the array
+}
+
+function move(to){
+	if(isSquareEmpty(to)){
+		updateUI(gameboard[1], to); // Updates where the player will go
+		gameboard[1] = to; // Stores the new position
+	}
+	else{
+		if(to == gameboard[2]){
+			redroom(gameboard[1], to);
+			alert("You are dead!! Wumpus ate you.");
+			newGame();
+		}
+		else if((to == gameboard[3]) || (to == gameboard[4])){
+			alert("The bat takes you to another part of the cave");
+			var newroom = getRandomEmptySquare();
+			updateUI(gameboard[1], newroom); 
+			gameboard[1] = newroom; 			
+		}
+		else if(to == gameboard[7]) {
+			gameboard[7] = 0;
+			updateUI(gameboard[1], to);
+			gameboard[1] = to;
+			moves = moves + 20;
+		}
+		else {
+			document.getElementById('room-' + gameboard[1]).style.backgroundColor = 'lightgreen';
+			document.getElementById('room-' + to).style.backgroundColor = 'red';
+			alert("You fall and hurt yourself badly, almost dying.");
+			newGame();
+		}
+	}	
+}
