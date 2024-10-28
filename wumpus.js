@@ -45,13 +45,13 @@ function walk(direction){
 			if((gameboard[1] - 1) % 5 != 0){
 				move(gameboard[1] - 1);
 			} else {
-				feedback("You are already farthest to the left");	
+				feedback("You are already farthest to the left");
 			}
 			break;
 		//go up
 		case 38:
 			if((gameboard[1] - 5) > 0){
-				move(gameboard[1] - 5);	
+				move(gameboard[1] - 5);
 			} else {
 				feedback("You cannot move higher");	
 			}
